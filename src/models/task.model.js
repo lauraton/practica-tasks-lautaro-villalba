@@ -1,5 +1,5 @@
 import { sequelize } from "../config/database.js";
-import { DataTypes, UniqueConstraintError } from "sequelize";
+import { DataTypes } from "sequelize";
 
 export const Task = sequelize.define("task", {
     title: {
