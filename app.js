@@ -3,6 +3,7 @@ import { startDB } from "./src/config/database.js";
 import { User } from "./src/models/user.model.js";
 import { Task } from "./src/models/task.model.js";
 import { userRouter } from './src/routes/user.route.js';
+import { taskRouter } from './src/routes/task.route.js';
 
 const app = express()
 const port = 3000;
