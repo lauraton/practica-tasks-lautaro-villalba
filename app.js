@@ -10,6 +10,7 @@ const port = 3000;
 
 app.use(express.json());
 app.use("/api", userRouter)
+app.use("/api", taskRouter)
 
 app.listen(port, async () => {
     await startDB();

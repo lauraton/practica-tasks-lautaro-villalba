@@ -1,6 +1,5 @@
 import { User } from "../models/user.model.js";
-import fs from "fs";
-import crypto from "crypto";
+
 
 export const createUser = async (req, res) => {
    try {
@@ -30,34 +29,21 @@ export const createUser = async (req, res) => {
         return res.status(400).json({ message: "Email ya registrado" })
     }
 
-    // Crear usuario: hashear la contraseña y guardar
-    const hashedPassword = crypto.scryptSync(password, 'papure_salt', 64).toString('hex');
-
+    
     const user = await User.create({
-        name,
-        email,
-        password: hashedPassword
-    });
+    name,
+    email,
+    password
+});
 
-    return res.status(201).json({
-        message: 'Usuario creado correctamente',
-        user
-    });
+return res.status(201).json({
+    message: "Usuario creado correctamente",
+    user
+});
    } catch (error) {
     console.log(error);
-    try {
-        fs.mkdirSync('logs', { recursive: true });
-        fs.appendFileSync('logs/error.log', `[${new Date().toISOString()}] ${error.stack}\n\n`);
-    } catch (fsErr) {
-        console.log('No se pudo escribir el log:', fsErr);
-    }
-
-        return res.status(500).json({
-            message: "Error interno del servidor",
-            error: error.message
-        })
-   }
-}
+    return res.status(500).json({message: "Error interno del servidor"})
+   }}
 
 export const getUsers = async (req, res) => {
     try {

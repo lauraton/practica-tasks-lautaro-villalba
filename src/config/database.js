@@ -14,7 +14,7 @@ export const sequelize = new Sequelize('tasks_users_db', 'root', '', {
 export const startDB = async () => {
     try {
         await sequelize.authenticate();
-        await sequelize.sync();
+        await sequelize.sync({ force: true});
         console.log("La base de datos está lista")
         
     } catch (error) {
