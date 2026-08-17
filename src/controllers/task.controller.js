@@ -2,7 +2,7 @@ import { Task } from "../models/task.model.js";
 
 export const createTask = async (req, res) => {
     try {
-        const { title, description, isComplete } = req.body;
+        const { title, description, is_completed } = req.body;
 
         if (
             typeof title !== "string" ||
@@ -32,8 +32,8 @@ export const createTask = async (req, res) => {
         }
 
         if (
-            isComplete !== undefined &&
-            typeof isComplete !== "boolean"
+            is_completed !== undefined &&
+            typeof is_completed !== "boolean"
         ) {
             return res.status(400).json({
                 message: "isComplete debe ser un valor booleano"
@@ -53,7 +53,7 @@ export const createTask = async (req, res) => {
         const task = await Task.create({
             title,
             description,
-            isComplete
+            is_completed
         });
 
         return res.status(201).json({
@@ -111,7 +111,7 @@ export const getTaskById = async (req, res) => {
 export const updateTask = async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, description, isComplete } = req.body;
+        const { title, description, is_completed } = req.body;
 
         const task = await Task.findByPk(id);
 
@@ -148,9 +148,9 @@ export const updateTask = async (req, res) => {
             });
         }
 
-        if (typeof isComplete !== "boolean") {
+        if (typeof is_completed !== "boolean") {
             return res.status(400).json({
-                message: "isComplete debe ser un valor booleano"
+                message: "is_completed debe ser un valor booleano"
             });
         }
 
@@ -167,7 +167,7 @@ export const updateTask = async (req, res) => {
         await task.update({
             title,
             description,
-            isComplete
+            is_completed
         });
 
         return res.status(200).json({
