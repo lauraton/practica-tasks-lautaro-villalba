@@ -4,12 +4,12 @@ import { User } from "./user.model.js";
 
 export const Profile = sequelize.define('Profile', {
     age: {
-        type: DataTypes.INTEGER(2),
+        type: DataTypes.INTEGER,
         allowNull: false
     },
 
     phone: {
-        type: DataTypes.REAL(16),
+        type: DataTypes.INTEGER(16),
         allowNull: true
     },
 
