@@ -5,6 +5,7 @@ import { Task } from "./src/models/task.model.js";
 import { userRouter } from './src/routes/user.route.js';
 import { taskRouter } from './src/routes/task.route.js';
 import { profileRouter } from './src/routes/profile.route.js';
+import { tagRouter } from './src/routes/tag.route.js';
 
 const app = express()
 const port = 3000;
