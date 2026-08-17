@@ -1,8 +1,10 @@
 import { Task } from "../models/task.model.js";
+import { User } from "../models/user.model.js";
+
 
 export const createTask = async (req, res) => {
     try {
-        const { title, description, is_completed } = req.body;
+        const { title, description, is_completed, user_id } = req.body;
 
         if (
             typeof title !== "string" ||
@@ -40,6 +42,29 @@ export const createTask = async (req, res) => {
             });
         }
 
+        if (
+            user_id === undefined ||
+            user_id === null
+        ) {
+            return res.status(400).json({
+                message: "La tarea debe tener un usuario"
+            });
+        }
+
+        if (!Number.isInteger(user_id)) {
+            return res.status(400).json({
+                message: "user_id debe ser un número entero"
+            });
+        }
+
+        const user = await User.findByPk(user_id);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "El usuario no existe"
+            });
+        }
+
         const existingTask = await Task.findOne({
             where: { title }
         });
@@ -53,7 +78,8 @@ export const createTask = async (req, res) => {
         const task = await Task.create({
             title,
             description,
-            is_completed
+            is_completed,
+            user_id
         });
 
         return res.status(201).json({
@@ -72,7 +98,11 @@ export const createTask = async (req, res) => {
 
 export const getTasks = async (req, res) => {
     try {
-        const tasks = await Task.findAll();
+        const tasks = await Task.findAll({
+            include: {
+                model: User, as: "usuario", attributes: ["id", "name", "email"]
+            }
+        });
 
         return res.status(200).json(tasks);
 
@@ -89,7 +119,11 @@ export const getTaskById = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const task = await Task.findByPk(id);
+        const task = await Task.findByPk(id, {
+            include: {
+                model: User, as: "usuario", attributes: ["id", "name", "email"]
+            }
+        });
 
         if (!task) {
             return res.status(404).json({

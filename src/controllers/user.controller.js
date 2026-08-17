@@ -1,3 +1,4 @@
+import { Task } from "../models/task.model.js";
 import { User } from "../models/user.model.js";
 
 
@@ -47,7 +48,9 @@ return res.status(201).json({
 
 export const getUsers = async (req, res) => {
     try {
-        const users = await User.findAll();
+        const users = await User.findAll({
+            include: { model: Task, as: "tareas" }
+        });
 
         return res.status(200).json(users);
 
@@ -66,7 +69,9 @@ export const getUserById = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const user = await User.findByPk(id);
+        const user = await User.findByPk(id, {
+            include: Task, as: "tareas"
+        });
 
         if (!user) {
             return res.status(404).json({
