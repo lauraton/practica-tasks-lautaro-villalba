@@ -1,5 +1,6 @@
 import { sequelize } from "../config/database.js";
 import { DataTypes } from "sequelize";
+import { User } from "./user.model.js";
 
 export const Task = sequelize.define("task", {
     title: {
@@ -11,9 +12,13 @@ export const Task = sequelize.define("task", {
         type: DataTypes.STRING(100),
         allowNull: false
     },
-    isComplete: {
+    is_completed: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
     }
 
-})
+});
+
+Task.belongsTo(User, { foreignKey: "user_id", as: "usuario" })
+
+User.hasMany(Task, { foreignKey: "user_id", as: "tareas" })
