@@ -1,5 +1,5 @@
-import { Tag } from "../models/Tag.js";
-import { Task } from "../models/Task.js";
+import { Tag } from "../models/tag.model.js";
+import { Task } from "../models/task.model.js";
 
 
 export const getTags = async (req, res) => {

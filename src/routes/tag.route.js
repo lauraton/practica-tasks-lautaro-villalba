@@ -9,10 +9,8 @@ import {
 
 export const tagRouter = Router();
 
-router.get("/", getTags);
-router.get("/:id", getTagById);
-router.post("/", createTag);
-router.put("/:id", updateTag);
-router.delete("/:id", deleteTag);
-
-export default router;
+tagRouter.get("/", getTags);
+tagRouter.get("/:id", getTagById);
+tagRouter.post("/", createTag);
+tagRouter.put("/:id", updateTag);
+tagRouter.delete("/:id", deleteTag);
