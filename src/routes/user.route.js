@@ -1,4 +1,4 @@
-import express from "express";
+
 import { Router } from "express";
 
 import {
@@ -9,7 +9,7 @@ import {
     deleteUser
 } from "../controllers/user.controller.js";
 
-export const userRouter = express.Router();
+export const userRouter = Router();
 
 userRouter.post("/users", createUser);
 userRouter.get("/users", getUsers);
