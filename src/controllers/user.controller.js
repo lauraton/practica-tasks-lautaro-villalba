@@ -70,8 +70,9 @@ export const getUserById = async (req, res) => {
         const { id } = req.params;
 
         const user = await User.findByPk(id, {
-            include: Task, as: "tareas"
-        });
+            include: {
+                model: Task, as: "tareas"
+    }});
 
         if (!user) {
             return res.status(404).json({
@@ -97,7 +98,6 @@ export const updateUser = async (req, res) => {
         const { id } = req.params;
         const { name, email, password } = req.body;
 
-        // Buscar usuario
         const user = await User.findByPk(id);
 
         if (!user) {
