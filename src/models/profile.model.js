@@ -9,7 +9,7 @@ export const Profile = sequelize.define('Profile', {
     },
 
     phone: {
-        type: DataTypes.INTEGER(16),
+        type: DataTypes.INTEGER(10),
         allowNull: true
     },
 
