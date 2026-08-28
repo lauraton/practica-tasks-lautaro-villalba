@@ -10,17 +10,23 @@ export const createProfile = [
     
     body("phone")
         .optional()
+        .isInt()
+        .withMessage("Phone debe tener números enteros.")
         .isLength( { max: 10})
         .withMessage("El número de teléfono no puede superar los 10 caracteres"),
 
     body("biography")
         .optional()
         .isString()
-        .withMessage("La biografía debe de ser un string"),
+        .withMessage("La biografía debe de ser un string")
+        .isLength( { max: 200 })
+        .withMessage("La biografía no debe superar los 200 caracteres."),
 
     body("user_id")
         .notEmpty()
         .withMessage("El campo user_id NO puede estar vacío")
+        .isInt()
+        .withMessage("user_id debe ser un número entero")
         .custom(async (user_id) => {
             const existeId = Profile.findByPk(user_id)
 

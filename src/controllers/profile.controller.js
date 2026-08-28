@@ -5,44 +5,6 @@ export const createProfile = async (req, res) => {
     try {
         const { age, phone, biography, user_id } = req.body;
 
-        if (!Number.isInteger(age)) {
-            return res.status(400).json({
-                message: "Age debe ser un número entero"
-            });
-        }
-
-        if (phone !== undefined && phone !== null && typeof phone !== "number") {
-            return res.status(400).json({
-                message: "Phone debe ser un número"
-            });
-        }
-
-        if (biography !== undefined && biography !== null && typeof biography !== "string") {
-            return res.status(400).json({
-                message: "Biography debe ser una cadena de texto"
-            });
-        }
-
-        if (biography && biography.length > 200) {
-            return res.status(400).json({
-                message: "Biography no debe superar los 200 caracteres"
-            });
-        }
-
-        if (!Number.isInteger(user_id)) {
-            return res.status(400).json({
-                message: "user_id debe ser un número entero"
-            });
-        }
-
-        const user = await User.findByPk(user_id);
-
-        if (!user) {
-            return res.status(404).json({
-                message: "El usuario no existe"
-            });
-        }
-
         const existingProfile = await Profile.findOne({
             where: { user_id }
         });

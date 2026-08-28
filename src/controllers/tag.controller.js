@@ -68,20 +68,6 @@ export const createTag = async (req, res) => {
     const { name } = req.body;
 
     try {
-        // Validación de campo requerido
-        if (!name || name.trim() === "") {
-            return res.status(400).json({
-                message: "El nombre de la etiqueta es obligatorio"
-            });
-        }
-
-       
-        const existingTag = await Tag.findOne({ where: { name: name.trim() } });
-        if (existingTag) {
-            return res.status(400).json({
-                message: "Ya existe una etiqueta con ese nombre"
-            });
-        }
 
         const newTag = await Tag.create({ name: name.trim() });
 
