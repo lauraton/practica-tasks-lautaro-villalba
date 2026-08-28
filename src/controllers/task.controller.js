@@ -6,72 +6,11 @@ export const createTask = async (req, res) => {
     try {
         const { title, description, is_completed, user_id } = req.body;
 
-        if (
-            typeof title !== "string" ||
-            typeof description !== "string"
-        ) {
-            return res.status(400).json({
-                message: "Title y description deben ser cadenas de texto"
-            });
-        }
-
-        if (
-            title.trim() === "" ||
-            description.trim() === ""
-        ) {
-            return res.status(400).json({
-                message: "Title y description no pueden estar vacíos"
-            });
-        }
-
-        if (
-            title.length > 100 ||
-            description.length > 100
-        ) {
-            return res.status(400).json({
-                message: "Title y description no deben superar los 100 caracteres"
-            });
-        }
-
-        if (
-            is_completed !== undefined &&
-            typeof is_completed !== "boolean"
-        ) {
-            return res.status(400).json({
-                message: "isComplete debe ser un valor booleano"
-            });
-        }
-
-        if (
-            user_id === undefined ||
-            user_id === null
-        ) {
-            return res.status(400).json({
-                message: "La tarea debe tener un usuario"
-            });
-        }
-
-        if (!Number.isInteger(user_id)) {
-            return res.status(400).json({
-                message: "user_id debe ser un número entero"
-            });
-        }
-
         const user = await User.findByPk(user_id);
 
         if (!user) {
             return res.status(404).json({
                 message: "El usuario no existe"
-            });
-        }
-
-        const existingTask = await Task.findOne({
-            where: { title }
-        });
-
-        if (existingTask) {
-            return res.status(400).json({
-                message: "El título de la tarea ya está registrado"
             });
         }
 
