@@ -5,6 +5,15 @@ export const createProfile = async (req, res) => {
     try {
         const { age, phone, biography, user_id } = req.body;
 
+
+        const user = await User.findByPk(user_id);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "El usuario no existe"
+            });
+        }
+
         const existingProfile = await Profile.findOne({
             where: { user_id }
         });
