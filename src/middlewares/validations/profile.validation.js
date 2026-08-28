@@ -31,3 +31,17 @@ export const createProfile = [
             return true
         })
 ]
+
+export const profileIdValidation = [
+    param("id")
+        .isInt({ min: 1 })
+        .withMessage("El ID debe ser un entero positivo")
+        .custom(async (id) => {
+            const profile = await Profile.findByPk(id);
+
+            if (!profile) {
+                throw new Error("El profile no existe");
+            }
+            return true;
+        })
+];

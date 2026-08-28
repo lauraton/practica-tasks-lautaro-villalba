@@ -26,9 +26,9 @@ export const tagIdValidation = [
         .isInt({ min: 1 })
         .withMessage("El ID debe ser un entero positivo")
         .custom(async (id) => {
-            const user = await Tag.findByPk(id);
+            const tag = await Tag.findByPk(id);
 
-            if (!user) {
+            if (!tag) {
                 throw new Error("La etiqueta no existe");
             }
             return true;

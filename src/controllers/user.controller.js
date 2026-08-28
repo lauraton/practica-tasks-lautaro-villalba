@@ -5,31 +5,6 @@ import { User } from "../models/user.model.js";
 export const createUser = async (req, res) => {
    try {
     const { name, email, password } = req.body;
-
-    if (typeof name !== "string" || typeof email !== "string" || typeof password !== "string") {
-        return res.status(400).json({
-            message: "Los campos deben de ser completados con una cadena de texto"
-        })
-    }
-    
-    if (name.trim() === "" || email.trim() === "" || password.trim() === "") {
-        return res.status(400).json({
-            message: "Los campos DEBEN ser completados."
-        })
-    }
-
-    if (name.length > 100 || email.length > 100 || password.length > 100) {
-        return res.status(400).json({
-            message: "Los campos no deben sobrepasar los 100 caracteres"
-        })
-    }
-
-    const existingUser = await User.findOne({ where: { email } });
-
-    if (existingUser) {
-        return res.status(400).json({ message: "Email ya registrado" })
-    }
-
     
     const user = await User.create({
     name,
@@ -103,39 +78,6 @@ export const updateUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 message: "Usuario no encontrado"
-            });
-        }
-
-        
-        if (
-            typeof name !== "string" ||
-            typeof email !== "string" ||
-            typeof password !== "string"
-        ) {
-            return res.status(400).json({
-                message: "Los campos deben de ser completados con una cadena de texto"
-            });
-        }
-
-       
-        if (
-            name.trim() === "" ||
-            email.trim() === "" ||
-            password.trim() === ""
-        ) {
-            return res.status(400).json({
-                message: "Los campos DEBEN ser completados."
-            });
-        }
-
-       
-        if (
-            name.length > 100 ||
-            email.length > 100 ||
-            password.length > 100
-        ) {
-            return res.status(400).json({
-                message: "Los campos no deben sobrepasar los 100 caracteres"
             });
         }
 
