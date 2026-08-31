@@ -21,7 +21,13 @@ export const Task = sequelize.define("task", {
         allowNull: false
 }
 
-});
+},
+
+{
+    timestamps: true,
+    paranoid: true
+}
+);
 
 Task.belongsTo(User, { foreignKey: "user_id", as: "usuario" })
 

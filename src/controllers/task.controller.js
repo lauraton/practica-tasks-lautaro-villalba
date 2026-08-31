@@ -1,5 +1,6 @@
 import { Task } from "../models/task.model.js";
 import { User } from "../models/user.model.js";
+import { matchedData } from "express-validator";
 
 
 export const createTask = async (req, res) => {
@@ -84,8 +85,7 @@ export const getTaskById = async (req, res) => {
 export const updateTask = async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, description, is_completed } = req.body;
-
+        const data = matchedData(req)
         const task = await Task.findByPk(id);
 
         if (!task) {
@@ -94,54 +94,8 @@ export const updateTask = async (req, res) => {
             });
         }
 
-        if (
-            typeof title !== "string" ||
-            typeof description !== "string"
-        ) {
-            return res.status(400).json({
-                message: "Title y description deben ser cadenas de texto"
-            });
-        }
 
-        if (
-            title.trim() === "" ||
-            description.trim() === ""
-        ) {
-            return res.status(400).json({
-                message: "Title y description no pueden estar vacíos"
-            });
-        }
-
-        if (
-            title.length > 100 ||
-            description.length > 100
-        ) {
-            return res.status(400).json({
-                message: "Title y description no deben superar los 100 caracteres"
-            });
-        }
-
-        if (typeof is_completed !== "boolean") {
-            return res.status(400).json({
-                message: "is_completed debe ser un valor booleano"
-            });
-        }
-
-        const existingTask = await Task.findOne({
-            where: { title }
-        });
-
-        if (existingTask && existingTask.id !== task.id) {
-            return res.status(400).json({
-                message: "El título de la tarea ya está registrado"
-            });
-        }
-
-        await task.update({
-            title,
-            description,
-            is_completed
-        });
+        await task.update(data);
 
         return res.status(200).json({
             message: "Tarea actualizada correctamente",
