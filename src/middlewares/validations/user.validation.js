@@ -31,8 +31,33 @@ export const createUserValidation = [
         .notEmpty()
         .withMessage("La contraseña es obligatoria")
         .isLength({ min: 8, max: 100 })
-        .withMessage("La contraseña debe tener entre 6 y 100 caracteres")
+        .withMessage("La contraseña debe tener entre 8 y 100 caracteres")
 ];
+
+export const updateUserValidation = [
+  param("id")
+    .isLength({ max: 5 })
+    .withMessage("El id no debe ser mayor a 5 caracteres"),
+  body("name").optional().notEmpty().withMessage("El name no debe ser vacio"),
+  body("email")
+    .optional()
+    .notEmpty()
+    .withMessage("El email no debe ser vacio")
+    .isEmail()
+    .withMessage("El email debe ser valido")
+    .custom(async (email) => {
+            const existingUser = await User.findOne({
+                where: { email }
+            });
+
+            if (existingUser) {
+                throw new Error("El email ya está registrado");
+            }
+
+            return true;
+        }),
+];
+
 
 export const userIdValidation = [
     param("id")

@@ -1,5 +1,6 @@
 import { Task } from "../models/task.model.js";
 import { User } from "../models/user.model.js";
+import { matchedData } from "express-validator";
 
 
 export const createUser = async (req, res) => {
@@ -71,7 +72,7 @@ export const getUserById = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, email, password } = req.body;
+        const data = matchedData(req);
 
         const user = await User.findByPk(id);
 
@@ -80,24 +81,8 @@ export const updateUser = async (req, res) => {
                 message: "Usuario no encontrado"
             });
         }
-
         
-        const existingUser = await User.findOne({
-            where: { email }
-        });
-
-        if (existingUser && existingUser.id !== user.id) {
-            return res.status(400).json({
-                message: "Email ya registrado"
-            });
-        }
-
-        
-        await user.update({
-            name,
-            email,
-            password
-        });
+        await user.update(data);
 
         return res.status(200).json({
             message: "Usuario actualizado correctamente",
