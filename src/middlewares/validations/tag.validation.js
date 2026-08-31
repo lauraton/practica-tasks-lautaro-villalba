@@ -1,5 +1,5 @@
 import { body, param } from "express-validator"
-import { Tag } from "../../models/task.model.js"
+import { Tag } from "../../models/tag.model.js"
 
 export const createTagValidation = [
     body("name")
@@ -9,6 +9,27 @@ export const createTagValidation = [
         .withMessage("El name debe de ser un string")
         .isLength( { max: 100 })
         .withMessage("El nombre no puede superar los 100 caracteres")
+        .custom(async (name) => {
+            const existeTag = await Tag.findOne({
+                where: { name: name }
+            })
+
+            if (existeTag) {
+                throw new Error("Ya existe esa etiqueta en la base de datos.")
+            }
+            return true
+        })
+]
+
+export const updateTagValidation = [
+    body("name")
+        .optional()
+        .notEmpty()
+        .withMessage("El name no puede estar vacío")
+        .isString()
+        .withMessage("El name debe ser un string")
+        .isLength( { max: 100 })
+        .withMessage("El name no puede superar los 100 caracteres")
         .custom(async (name) => {
             const existeTag = await Tag.findOne({
                 where: { name: name }

@@ -1,5 +1,6 @@
 import { Tag } from "../models/tag.model.js";
 import { Task } from "../models/task.model.js";
+import { matchedData } from "express-validator";
 
 
 export const getTags = async (req, res) => {
@@ -85,7 +86,7 @@ export const createTag = async (req, res) => {
 
 export const updateTag = async (req, res) => {
     const { id } = req.params;
-    const { name } = req.body;
+    const data = matchedData(req);
 
     try {
        
@@ -96,21 +97,8 @@ export const updateTag = async (req, res) => {
             });
         }
 
-        if (!name || name.trim() === "") {
-            return res.status(400).json({
-                message: "El nombre de la etiqueta es obligatorio"
-            });
-        }
 
-        
-        const existingTag = await Tag.findOne({ where: { name: name.trim() } });
-        if (existingTag && existingTag.id !== parseInt(id)) {
-            return res.status(400).json({
-                message: "Ya existe otra etiqueta con ese nombre"
-            });
-        }
-
-        await tag.update({ name: name.trim() });
+        await tag.update(data);
 
         return res.status(200).json({
             message: "Etiqueta actualizada exitosamente",

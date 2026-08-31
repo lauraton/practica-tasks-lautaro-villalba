@@ -7,4 +7,9 @@ export const Tag = sequelize.define("tag", {
         unique: true,
         allowNull: false
     }
+},
+
+{
+    timestamps: true,
+    paranoid: true
 });
