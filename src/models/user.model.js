@@ -22,6 +22,7 @@ export const User = sequelize.define('User', {
 
 },
 
-{ timestamps: true, paranoid: true }
+{   timestamps: true,
+     paranoid: true }
 
 )
