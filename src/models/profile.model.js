@@ -22,6 +22,10 @@ export const Profile = sequelize.define('Profile', {
         allowNull: false,
         unique: true
     }
+},
+{
+    timestamps: true,
+    paranoid: true
 })
 
 Profile.belongsTo(User, {foreignKey: "user_id", as: "usuario"});

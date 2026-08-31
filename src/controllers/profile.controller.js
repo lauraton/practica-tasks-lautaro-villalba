@@ -1,3 +1,4 @@
+import { matchedData } from "express-validator";
 import { Profile } from "../models/profile.model.js";
 import { User } from "../models/user.model.js";
 
@@ -65,3 +66,54 @@ export const getProfiles = async (req, res) => {
         });
     }
 };
+
+export const updateProfiles = async (req, res) => {
+    try {
+        const { id } = req.params
+        const data = matchedData(req)
+        const profile = await Profile.findByPk(id);
+
+        if (!profile) {
+            return res.status(404).json({
+                message: "Profile inexistente"
+            });
+        }
+
+        await profile.update(data);
+        return res.status(200).json({
+            message: "Profile actualizado correctamente",
+            profile
+        })
+    } catch (error) {
+        console.log(error)
+
+        return res.status(500).json({
+            message: "Error interno del servidor"
+        });
+    }
+};
+
+export const deleteProfile = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const profile = await Profile.findByPk(id);
+        if (!profile) {
+            return res.status(404).json({
+                message: "Profile no encontrado"
+            })
+        }
+
+        await profile.destroy();
+
+        return res.status(200).json({
+            message: "Profile eliminado correctamente"
+        })
+    } catch (error) {
+        console.log(error);
+
+        return res.status(500).json({
+            message: "Error interno del servidor"
+        });
+    }
+}
