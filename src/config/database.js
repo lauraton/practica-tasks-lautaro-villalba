@@ -14,7 +14,9 @@ export const sequelize = new Sequelize('tasks_users_db', 'root', '', {
 export const startDB = async () => {
     try {
         await sequelize.authenticate();
-        await sequelize.sync({ force: true});
+        await sequelize.query("SET FOREIGN_KEY_CHECKS = 0");
+        await sequelize.sync({ force: true });
+        await sequelize.query("SET FOREIGN_KEY_CHECKS = 1");
         console.log("La base de datos está lista")
         
     } catch (error) {

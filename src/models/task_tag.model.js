@@ -13,6 +13,6 @@ export const Task_Tag = sequelize.define("task_tag", {
     },
 })
 
-Task.belongsToMany(Tag, { through: Task_Tag, foreignKey: "task_id", as: "tarea"})
+Task.belongsToMany(Tag, { through: Task_Tag, foreignKey: "task_id", otherKey: "tag_id" as: "tarea"})
 
-Tag.belongsToMany(Task, { through: Task_Tag, foreignKey: "tag_id", as: "etiquetas"})
+Tag.belongsToMany(Task, { through: Task_Tag, foreignKey: "tag_id", otherKey: "task_id" as: "etiquetas"})
